@@ -1,29 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{user.name}}
+      </li>
+    </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+<script>
+import axios from "axios";
 import HelloWorld from './components/HelloWorld.vue';
-
-@Component({
-  components: {
-    HelloWorld,
+export default {
+  name: 'app',
+  data () {
+    return {
+      users: []
+    }
   },
-})
-export default class App extends Vue {}
+  mounted() {
+    axios.get('http://localhost:3000/api/users').then(response => {
+      this.users = response.data;
+    })
+  }
+}
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
